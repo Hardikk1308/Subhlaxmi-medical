@@ -31,10 +31,16 @@ class AccountReviewBloc extends Bloc<AccountReviewEvent, AccountReviewState> {
     );
 
     result.fold(
-      (failure) => emit(
-        AccountReviewError(message: mapFailureToMessage(failure)),
-      ),
-      (company) => _handleCompanyStatus(company, emit),
+      (failure) {
+        if (!emit.isDone) {
+          emit(AccountReviewError(message: mapFailureToMessage(failure)));
+        }
+      },
+      (company) {
+        if (!emit.isDone) {
+          _handleCompanyStatus(company, emit);
+        }
+      },
     );
   }
 
@@ -48,12 +54,16 @@ class AccountReviewBloc extends Bloc<AccountReviewEvent, AccountReviewState> {
     );
 
     result.fold(
-      (failure) => emit(
-        AccountReviewError(message: mapFailureToMessage(failure)),
-      ),
+      (failure) {
+        if (!emit.isDone) {
+          emit(AccountReviewError(message: mapFailureToMessage(failure)));
+        }
+      },
       (company) {
         _checkCount = 0;
-        _handleCompanyStatus(company, emit);
+        if (!emit.isDone) {
+          _handleCompanyStatus(company, emit);
+        }
 
         // Start polling if still under review
         if (_isUnderReview(company)) {
@@ -65,11 +75,15 @@ class AccountReviewBloc extends Bloc<AccountReviewEvent, AccountReviewState> {
             );
 
             pollResult.fold(
-              (failure) => emit(
-                AccountReviewError(message: mapFailureToMessage(failure)),
-              ),
+              (failure) {
+                if (!emit.isDone) {
+                  emit(AccountReviewError(message: mapFailureToMessage(failure)));
+                }
+              },
               (updatedCompany) {
-                _handleCompanyStatus(updatedCompany, emit);
+                if (!emit.isDone) {
+                  _handleCompanyStatus(updatedCompany, emit);
+                }
                 if (!_isUnderReview(updatedCompany)) {
                   _pollingTimer?.cancel();
                 }
@@ -96,37 +110,22 @@ class AccountReviewBloc extends Bloc<AccountReviewEvent, AccountReviewState> {
     final status = company.coDes1?.toLowerCase() ?? '';
     final m2Bt = company.m2Bt?.toLowerCase() ?? '';
 
-    // Check if M2_BT is active
-    if (m2Bt != 'active') {
-      // Account is not active yet, stay in review
-      emit(AccountReviewPolling(company: company, checkCount: _checkCount));
+    // M2_BT is the primary indicator of account approval status
+    // If M2_BT is 'active', account is approved - navigate immediately
+    if (m2Bt == 'active') {
+      emit(AccountReviewApproved(company: company));
       return;
     }
 
-    if (status.contains('approved') || status.contains('active')) {
-      emit(AccountReviewApproved(company: company));
-    } else if (status.contains('rejected') || status.contains('declined')) {
-      emit(AccountReviewRejected(
-        company: company,
-        reason: company.coDes1 ?? 'Your account has been rejected.',
-      ));
-    } else if (status.contains('under review') || status.contains('under reivew')) {
-      emit(AccountReviewPolling(company: company, checkCount: _checkCount));
-    } else {
-      emit(AccountReviewUnderReview(company: company));
-    }
+    // If M2_BT is not active, account is still under review
+    emit(AccountReviewPolling(company: company, checkCount: _checkCount));
   }
 
   bool _isUnderReview(CompanyModel company) {
-    final status = company.coDes1?.toLowerCase() ?? '';
     final m2Bt = company.m2Bt?.toLowerCase() ?? '';
     
     // If M2_BT is not active, still under review
-    if (m2Bt != 'active') {
-      return true;
-    }
-    
-    return status.contains('under review') || status.contains('under reivew');
+    return m2Bt != 'active';
   }
 
   @override

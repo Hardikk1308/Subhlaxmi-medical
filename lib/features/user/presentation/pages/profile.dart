@@ -189,9 +189,12 @@ class _ProfilePageState extends State<ProfilePage> {
               context,
               title: 'Log Out',
               icon: Icons.logout,
-              onTap: () {
-                cacheHelper.setIsLoggedIn(false);
-                context.go('/');
+              onTap: () async {
+                // Clear all cached data on logout
+                await cacheHelper.clearAllCache();
+                if (context.mounted) {
+                  context.go('/');
+                }
               },
               isLogout: true,
             ),

@@ -17,13 +17,14 @@ class AccountReviewRemoteDataSourceImpl implements AccountReviewRemoteDataSource
   @override
   Future<CompanyModel> checkAccountStatus(String userId) async {
     try {
+      // Call user_details endpoint to get M2_BT status
       final response = await client.post(
-        Uri.parse(ApiConstants.application),
+        Uri.parse(ApiConstants.userDetails),
         headers: {'Content-Type': 'application/x-www-form-urlencoded'},
         body: {'user_id': userId},
       );
 
-      appLog('POST ${ApiConstants.application}');
+      appLog('POST ${ApiConstants.userDetails}');
       appLog('Request Body: ${{'user_id': userId}}');
       appLog('Response Status: ${response.statusCode}');
       appLog('Response Body: ${response.body}');

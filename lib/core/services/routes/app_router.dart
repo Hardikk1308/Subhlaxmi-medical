@@ -33,6 +33,9 @@ const Offset slideInFromRight = Offset(1.0, 0.0);
 const Offset slideUpFromBottom = Offset(0.0, 1.0);
 const Curve transitionCurve = Curves.easeInOut;
 
+// Router refresh notifier for reactive navigation
+final _routerRefreshNotifier = ValueNotifier<void>(null);
+
 CustomTransitionPage buildTransitionPage(Widget child, Offset begin) {
   return CustomTransitionPage(
     child: child,
@@ -51,6 +54,20 @@ CustomTransitionPage buildTransitionPage(Widget child, Offset begin) {
 final GoRouter router = GoRouter(
   initialLocation: '/',
   navigatorKey: rootNavigatorKey,
+  redirect: (context, state) {
+    // Check if user is trying to navigate away from account review page
+    // If account is under review, keep them on the account review page
+    final currentPath = state.uri.path;
+    
+    // If already on account review page, allow it
+    if (currentPath == AccountReviewPage.path) {
+      return null;
+    }
+    
+    // For other routes, we could add additional checks here if needed
+    return null;
+  },
+  refreshListenable: _routerRefreshNotifier,
   routes: [
     GoRoute(
       path: '/',

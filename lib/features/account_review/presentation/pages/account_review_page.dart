@@ -68,79 +68,90 @@ class _AccountReviewPageState extends State<AccountReviewPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xFFF8F9FA),
-      appBar: GradientAppBar(
-        name: "Account Review",
-        address: "address",
-        isUserName: false,
-        leading: false,
-      ),
-      body: BlocListener<AccountReviewBloc, AccountReviewState>(
-        listener: (context, state) {
-          if (state is AccountReviewApproved) {
-            _handleAccountApproved(context);
-          } else if (state is AccountReviewRejected) {
-            _handleAccountRejected(context, state.reason);
-          }
-        },
-        child: BlocBuilder<AccountReviewBloc, AccountReviewState>(
-          builder: (context, state) {
-            if (state is AccountReviewLoading) {
-              return const Center(
-                child: CircularProgressIndicator(color: Colours.primaryColor),
-              );
-            }
-
-            if (state is AccountReviewError) {
-              return _buildErrorWidget(context, state.message);
-            }
-
-            if (state is AccountReviewApproved) {
-              return _buildApprovedWidget();
-            }
-
-            if (state is AccountReviewRejected) {
-              return _buildRejectedWidget(state.reason);
-            }
-
-            // Show under review or polling state
-            return SingleChildScrollView(
-              child: Column(
-                children: [
-                  SizedBox(height: 40.h),
-                  _buildLogoSection(),
-                  SizedBox(height: 32.h),
-                  _buildCompanyNameSection(),
-                  SizedBox(height: 24.h),
-                  _buildDescriptionSection(state),
-                  SizedBox(height: 32.h),
-                  _buildContactSection(),
-                  SizedBox(height: 40.h),
-                ],
-              ),
-            );
-          },
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) {
+        // Prevent back button from closing the app
+        // User must wait for account approval
+        if (didPop) return;
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Please wait for your account to be approved'),
+            duration: Duration(seconds: 2),
+          ),
+        );
+      },
+      child: Scaffold(
+        backgroundColor: const Color(0xFFF8F9FA),
+        appBar: GradientAppBar(
+          name: "Account Review",
+          address: "address",
+          isUserName: false,
+          leading: false,
         ),
+        body: BlocListener<AccountReviewBloc, AccountReviewState>(
+          listener: (context, state) {
+            if (state is AccountReviewApproved) {
+              _handleAccountApproved(context);
+            } else if (state is AccountReviewRejected) {
+              _handleAccountRejected(context, state.reason);
+            }
+          },
+          child: BlocBuilder<AccountReviewBloc, AccountReviewState>(
+            builder: (context, state) {
+              if (state is AccountReviewLoading) {
+                return const Center(
+                  child: CircularProgressIndicator(color: Colours.primaryColor),
+                );
+              }
+
+              if (state is AccountReviewError) {
+                return _buildErrorWidget(context, state.message);
+              }
+
+              if (state is AccountReviewApproved) {
+                return _buildApprovedWidget();
+              }
+
+              if (state is AccountReviewRejected) {
+                return _buildRejectedWidget(state.reason);
+              }
+
+              // Show under review or polling state
+              return SingleChildScrollView(
+                child: Column(
+                  children: [
+                    SizedBox(height: 40.h),
+                    _buildLogoSection(),
+                    SizedBox(height: 32.h),
+                    _buildCompanyNameSection(),
+                    SizedBox(height: 24.h),
+                    _buildDescriptionSection(state),
+                    SizedBox(height: 32.h),
+                    _buildContactSection(),
+                    SizedBox(height: 40.h),
+                  ],
+                ),
+              );
+            },
+          ),
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+        floatingActionButton: _buildContactButton(context),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: _buildContactButton(context),
     );
   }
 
   void _handleAccountApproved(BuildContext context) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        backgroundColor: Colours.success,
-        content: const Text('🎉 Your account has been approved!'),
-        behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      ),
-    );
+    // Stop polling immediately
+    try {
+      context.read<AccountReviewBloc>().add(const StopPollingEvent());
+    } catch (e) {
+      print('Error stopping polling: $e');
+    }
 
-    Future.delayed(const Duration(seconds: 2), () {
-      _navigateToNextPage(context);
-    });
+    // Navigate immediately to update profile page
+    _navigateToNextPage(context);
   }
 
   void _handleAccountRejected(BuildContext context, String reason) {

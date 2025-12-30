@@ -6,6 +6,7 @@ import 'package:mediecom/core/services/routes/app_router.dart';
 import 'package:mediecom/core/style/app_colors.dart';
 import 'package:mediecom/features/account_review/presentation/bloc/account_review_bloc.dart';
 import 'package:mediecom/features/account_review/domain/usecases/check_account_status_usecase.dart';
+import 'package:mediecom/features/account_review/presentation/pages/account_review_page.dart';
 import 'package:mediecom/features/auth/presentation/auth_injection.dart';
 import 'package:mediecom/features/auth/presentation/bloc/send_otp/send_otp_bloc.dart';
 import 'package:mediecom/features/auth/presentation/bloc/sign_in/sign_in_bloc.dart';
@@ -25,8 +26,53 @@ import 'package:mediecom/features/user/presentation/blocs/profile/profile_bloc.d
 
 import 'injection_container.dart';
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      // App is resumed - check if we need to redirect to account review
+      _checkAccountStatusOnResume();
+    }
+  }
+
+  void _checkAccountStatusOnResume() {
+    // Check if we're currently on the account review page
+    final currentLocation = router.routerDelegate.currentConfiguration.uri.toString();
+    
+    if (currentLocation == AccountReviewPage.path) {
+      // Already on account review page, no need to do anything
+      // The polling will continue automatically
+      return;
+    }
+    
+    // If not on account review page, check if account is under review
+    // This will be handled by the splash screen logic when navigating
+    // For now, just refresh the router to re-evaluate the current route
+    Future.delayed(const Duration(milliseconds: 500), () {
+      if (mounted) {
+        router.refresh();
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {

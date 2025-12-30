@@ -315,20 +315,45 @@ class _HomeScreenState extends State<HomeScreen> {
           BlocBuilder<SearchBloc, SearchState>(
             builder: (context, state) {
               if (state is SearchLoading) {
-                return Center(child: CircularProgressIndicator());
+                return SizedBox(
+                  height: 200.h,
+                  child: Center(
+                    child: CircularProgressIndicator(
+                      color: Colours.primaryColor,
+                    ),
+                  ),
+                );
               }
               if (state is SearchLoaded) {
                 final products = state.products;
 
                 if (products.isEmpty) {
-                  return Center(child: Text('No results found'));
+                  return SizedBox(
+                    height: 200.h,
+                    child: Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Iconsax.search_normal,
+                            size: 48.sp,
+                            color: Colors.grey[400],
+                          ),
+                          SizedBox(height: 12.h),
+                          Text(
+                            'No results found',
+                            style: AppTextStyles.w600(14).copyWith(
+                              color: Colors.grey[600],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
                 }
 
                 return GridView.builder(
-                  padding: EdgeInsets.symmetric(
-                    // horizontal: 16.w,
-                    vertical: 8.h,
-                  ),
+                  padding: EdgeInsets.symmetric(vertical: 8.h),
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -344,41 +369,45 @@ class _HomeScreenState extends State<HomeScreen> {
                       onTap: () {
                         context.push(ProductDetailPage.path, extra: product);
                       },
-
                       child: ProductCard(data: product, index: index),
                     );
                   },
                 );
-                // return ListView.builder(
-                //   shrinkWrap: true,
-                //   physics: NeverScrollableScrollPhysics(),
-                //   itemCount: state.products.length,
-                //   itemBuilder: (context, index) {
-                //     return ListTile(
-                //       title: Text(state.products[index].M1_NAME ?? ""),
-                //       onTap: () {
-                //         // Navigate to product detail
-                //       },
-                //     );
-                //   },
-                // );
               }
-              return Center(child: Text('No results found'));
+              if (state is SearchError) {
+                return SizedBox(
+                  height: 200.h,
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Iconsax.warning_2,
+                          size: 48.sp,
+                          color: Colors.red[400],
+                        ),
+                        SizedBox(height: 12.h),
+                        Text(
+                          'Error loading results',
+                          style: AppTextStyles.w600(14).copyWith(
+                            color: Colors.red[600],
+                          ),
+                        ),
+                        SizedBox(height: 8.h),
+                        Text(
+                          state.message,
+                          style: AppTextStyles.w400(12).copyWith(
+                            color: Colors.grey[600],
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              }
+              return SizedBox.shrink();
             },
-          ),
-
-          // Placeholder for now
-          Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SizedBox(height: 28.h),
-                Text(
-                  'Search results will appear here',
-                  style: AppTextStyles.w400(12),
-                ),
-              ],
-            ),
           ),
         ],
       ),
