@@ -64,6 +64,7 @@ class GradientAppBar extends StatelessWidget implements PreferredSizeWidget {
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
                     children: [
                       if (isUserName) ...[
                         Text(
@@ -93,7 +94,14 @@ class GradientAppBar extends StatelessWidget implements PreferredSizeWidget {
                         ),
                       ],
                       if (!isUserName) ...[
-                        Text(name, style: AppTextStyles.w800(16).primary),
+                        Flexible(
+                          child: Text(
+                            name,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: AppTextStyles.w800(16).primary,
+                          ),
+                        ),
                       ],
                     ],
                   ),

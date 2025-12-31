@@ -133,7 +133,10 @@ final GoRouter router = GoRouter(
     GoRoute(
       path: OrderTrackingPage.path,
       pageBuilder: (context, state) {
-        final OrderEntity order = state.extra as OrderEntity;
+        final extra = state.extra;
+        final OrderEntity order = extra is OrderEntity 
+            ? extra 
+            : OrderEntity.fromJson(extra as Map<String, dynamic>);
         return buildTransitionPage(
           OrderTrackingPage(order: order),
           slideInFromRight,

@@ -367,7 +367,13 @@ class _HomeScreenState extends State<HomeScreen> {
                     final ProductEntity product = products[index];
                     return GestureDetector(
                       onTap: () {
-                        context.push(ProductDetailPage.path, extra: product);
+                        context.push(
+                          ProductDetailPage.path,
+                          extra: ProductDetailsArgs(
+                            cate: product,
+                            tag: "search_product_${product.M1_CODE}",
+                          ),
+                        );
                       },
                       child: ProductCard(data: product, index: index),
                     );

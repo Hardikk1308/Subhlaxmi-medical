@@ -136,64 +136,74 @@ class ProductCard extends StatelessWidget {
                       padding: const EdgeInsets.all(12.0),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
                         children: [
-                          Text(
-                            data.M1_NAME ?? "Medicine Name",
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                            style: AppTextStyles.w700(14).copyWith(
-                              color: const Color(0xFF1A1A1A),
-                              height: 1.3,
+                          Flexible(
+                            child: Text(
+                              data.M1_NAME ?? "Medicine Name",
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              style: AppTextStyles.w700(14).copyWith(
+                                color: const Color(0xFF1A1A1A),
+                                height: 1.3,
+                              ),
                             ),
                           ),
                           const SizedBox(height: 4),
-                          Text(
-                            data.M1_LNAME ?? "Manufacturer",
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: AppTextStyles.w500(
-                              12,
-                            ).copyWith(color: Colors.grey[700]),
+                          Flexible(
+                            child: Text(
+                              data.M1_LNAME ?? "Manufacturer",
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: AppTextStyles.w500(
+                                12,
+                              ).copyWith(color: Colors.grey[700]),
+                            ),
                           ),
                           const SizedBox(height: 4),
-                          Text(
-                            data.M1_CST ?? "Type",
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: AppTextStyles.w500(
-                              12,
-                            ).copyWith(color: Colors.grey[600]),
+                          Flexible(
+                            child: Text(
+                              data.M1_CST ?? "Type",
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: AppTextStyles.w500(
+                                12,
+                              ).copyWith(color: Colors.grey[600]),
+                            ),
                           ),
                           const Spacer(),
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Container(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 2,
-                                ),
-                                decoration: BoxDecoration(
-                                  color: const Color(0xFFE0FDF4),
-                                  borderRadius: BorderRadius.circular(4),
-                                ),
-                                child: Text(
-                                  "₹${data.M1_AMT2 ?? '0'}",
-                                  style: AppTextStyles.w700(
-                                    16,
-                                  ).copyWith(color: const Color(0xFF10B981)),
-                                ),
-                              ),
-                              const SizedBox(width: 6),
-                              if (originalPrice > discountedPrice)
-                                Text(
-                                  "₹${data.M1_AMT1}",
-                                  style: AppTextStyles.w500(12).copyWith(
-                                    color: Colors.grey[500],
-                                    decoration: TextDecoration.lineThrough,
-                                    decorationColor: Colors.grey[500],
+                          SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Container(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 2,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: const Color(0xFFE0FDF4),
+                                    borderRadius: BorderRadius.circular(4),
+                                  ),
+                                  child: Text(
+                                    "₹${data.M1_AMT2 ?? '0'}",
+                                    style: AppTextStyles.w700(
+                                      16,
+                                    ).copyWith(color: const Color(0xFF10B981)),
                                   ),
                                 ),
-                            ],
+                                const SizedBox(width: 6),
+                                if (originalPrice > discountedPrice)
+                                  Text(
+                                    "₹${data.M1_AMT1}",
+                                    style: AppTextStyles.w500(12).copyWith(
+                                      color: Colors.grey[500],
+                                      decoration: TextDecoration.lineThrough,
+                                      decorationColor: Colors.grey[500],
+                                    ),
+                                  ),
+                              ],
+                            ),
                           ),
                         ],
                       ),

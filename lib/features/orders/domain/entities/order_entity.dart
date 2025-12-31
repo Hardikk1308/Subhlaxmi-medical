@@ -31,6 +31,24 @@ class OrderEntity extends Equatable {
     this.m2Chk7,
   });
 
+  factory OrderEntity.fromJson(Map<String, dynamic> json) {
+    return OrderEntity(
+      f4Lcode: json['f4Lcode']?.toString(),
+      f4No: json['f4No']?.toString(),
+      f4Party1: json['f4Party1']?.toString(),
+      f4Gtot: json['f4Gtot']?.toString(),
+      f4Amt1: json['f4Amt1']?.toString(),
+      f4Amt2: json['f4Amt2']?.toString(),
+      f4Bt: json['f4Bt']?.toString(),
+      f4Pm: json['f4Pm']?.toString(),
+      f4Ps: json['f4Ps']?.toString(),
+      f4Userdt: json['f4Userdt']?.toString(),
+      m2Chk1: json['m2Chk1']?.toString(),
+      m2Chk2: json['m2Chk2']?.toString(),
+      m2Chk7: json['m2Chk7']?.toString(),
+    );
+  }
+
   @override
   // TODO: implement props
   List<Object?> get props => [];

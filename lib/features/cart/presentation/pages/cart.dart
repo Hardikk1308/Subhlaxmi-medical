@@ -27,7 +27,7 @@ class Cart extends StatelessWidget {
   static const Color _subtextColor = Color(0xFF757575);
   static const Color _redAccent = Color(0xFFE53935);
 
-  final double deliveryFee = 3.50;
+  final double deliveryFee = 0;
 
   @override
   Widget build(BuildContext context) {
