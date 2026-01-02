@@ -11,7 +11,6 @@ import 'package:mediecom/core/common/widgets/full_screen_loader.dart';
 import 'package:mediecom/core/constants/api_constants.dart';
 import 'package:mediecom/core/style/app_colors.dart';
 import 'package:mediecom/core/utils/utils.dart';
-import 'package:mediecom/features/auth/presentation/auth_injection.dart';
 import 'package:mediecom/features/explore/presentation/pages/home_screen.dart';
 import 'package:mediecom/features/user/data/models/user_model.dart';
 import 'package:mediecom/features/user/presentation/blocs/profile/profile_bloc.dart';
@@ -35,6 +34,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController addressController = TextEditingController();
+  final TextEditingController referralCodeController = TextEditingController();
 
   XFile? _selectedImage;
   String? filePath;
@@ -46,6 +46,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
     emailController.text = cacheHelper.getUser()?.m2Chk3 ?? '';
     phoneController.text = cacheHelper.getUser()?.m2Chk2 ?? '';
     addressController.text = cacheHelper.getUser()?.m2Chk7 ?? '';
+    referralCodeController.text = cacheHelper.getUser()?.m2Chk25 ?? '';
     filePath = cacheHelper.getUser()?.m2Chk20 ?? '';
   }
 
@@ -56,6 +57,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
       m2Chk2: phoneController.text.trim(),
       m2Chk3: emailController.text.trim(),
       m2Chk7: addressController.text.trim(),
+      m2Chk25: referralCodeController.text.trim(),
       // Add other fields as necessary
     );
 
@@ -227,6 +229,16 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                     }
                     return null;
                   },
+                ),
+
+                SizedBox(height: 20.h),
+
+                /// Referral Code
+                _buildLabel('Referral Code'),
+                _buildTextField(
+                  controller: referralCodeController,
+                  hintText: 'Enter referral code',
+                  icon: Iconsax.gift,
                 ),
 
                 SizedBox(height: 40.h),

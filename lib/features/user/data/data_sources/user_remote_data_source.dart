@@ -75,6 +75,7 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
         "user_address": user.m2Chk7 ?? "",
         "user_state": user.m2Chk8 ?? "",
         "user_city": user.m2Chk9 ?? "",
+        "user_referral": user.m2Chk25 ?? "",
       };
       final profileResponse = await client.post(
         Uri.parse(ApiConstants.updateProfile),
