@@ -19,7 +19,9 @@ import '../../../../injection_container.dart';
 
 class UpdateProfileScreen extends StatefulWidget {
   static const path = '/update-profile';
-  const UpdateProfileScreen({super.key});
+  final bool isFromProfile;
+  
+  const UpdateProfileScreen({super.key, this.isFromProfile = false});
 
   @override
   State<UpdateProfileScreen> createState() => _UpdateProfileScreenState();
@@ -239,6 +241,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                   controller: referralCodeController,
                   hintText: 'Enter referral code',
                   icon: Iconsax.gift,
+                  readOnly: widget.isFromProfile,
                 ),
 
                 SizedBox(height: 40.h),
@@ -303,9 +306,11 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
     TextInputType? keyboardType,
     int maxLines = 1,
     String? Function(String?)? validator,
+    bool readOnly = false,
   }) {
     return TextFormField(
       controller: controller,
+      readOnly: readOnly,
       keyboardType: keyboardType,
       maxLines: maxLines,
       validator: validator,

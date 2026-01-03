@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:http/http.dart' as http;
 import 'package:mediecom/core/common/error/app_exceptions.dart';
 import 'package:mediecom/core/utils/utils.dart';

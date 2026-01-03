@@ -11,12 +11,13 @@ class ProductModel extends ProductEntity {
     super.M1_VAL = '',
     super.M1_AMT1 = '',
     super.M1_AMT2 = '',
+    super.M1_DT1 = '',
+    super.M1_DT2 = '',
     super.M1_DT3 = '',
     super.M1_DT4 = '',
     super.M1_BT = '',
     super.M1_ADD1 = '',
     super.M1_ADD2 = '',
-    super.M1_DT1 = '',
     super.M1_GROUP = '',
     super.M1_PRINT = '',
     super.category_name,
@@ -28,11 +29,10 @@ class ProductModel extends ProductEntity {
 
   factory ProductModel.fromJson(Map<String, dynamic> json) {
     return ProductModel(
-      M1_CODE: json['M1_CODE']?.toString() ?? '',
+      M1_CODE: json['M1_CODE']?.toString() ?? json['M1_OP']?.toString() ?? '',
       M1_NAME: json['M1_NAME']?.toString() ?? '',
       M1_LNAME: json['M1_LNAME']?.toString() ?? '',
 
-      // Old API supports these. New API doesn't → safe fallback
       M1_LST: json['M1_LST']?.toString() ?? '',
       M1_CST: json['M1_CST']?.toString() ?? '',
       M1_IT: json['M1_IT']?.toString() ?? '',
@@ -40,12 +40,14 @@ class ProductModel extends ProductEntity {
 
       M1_AMT1: json['M1_AMT1']?.toString() ?? '',
       M1_AMT2: json['M1_AMT2']?.toString() ?? '',
+      M1_DT1: json['M1_DT1']?.toString() ?? '',
+      M1_DT2: json['M1_DT2']?.toString() ?? '',
       M1_DT3: json['M1_DT3']?.toString() ?? '',
-      M1_DT4: json['M1_DT4']?.toString() ?? '',
+      // Map M1_DT2 from search API to M1_DT4 (expire date)
+      M1_DT4: json['M1_DT4']?.toString() ?? json['M1_DT2']?.toString() ?? '',
       M1_BT: json['M1_BT']?.toString() ?? '',
       M1_ADD1: json['M1_ADD1']?.toString() ?? '',
       M1_ADD2: json['M1_ADD2']?.toString() ?? '',
-      M1_DT1: json['M1_DT1']?.toString() ?? '',
       M1_GROUP: json['M1_GROUP']?.toString() ?? '',
       M1_PRINT: json['M1_PRINT']?.toString() ?? '',
 
@@ -73,12 +75,13 @@ class ProductModel extends ProductEntity {
       'M1_VAL': M1_VAL,
       'M1_AMT1': M1_AMT1,
       'M1_AMT2': M1_AMT2,
+      'M1_DT1': M1_DT1,
+      'M1_DT2': M1_DT2,
       'M1_DT3': M1_DT3,
       'M1_DT4': M1_DT4,
       'M1_BT': M1_BT,
       'M1_ADD1': M1_ADD1,
       'M1_ADD2': M1_ADD2,
-      'M1_DT1': M1_DT1,
       'M1_GROUP': M1_GROUP,
       'M1_PRINT': M1_PRINT,
       'category_name': category_name,

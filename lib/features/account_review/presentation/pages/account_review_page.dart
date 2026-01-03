@@ -7,9 +7,7 @@ import 'package:mediecom/core/common/app/cache_helper.dart';
 import 'package:mediecom/core/style/app_colors.dart';
 import 'package:mediecom/core/utils/utils.dart';
 import 'package:mediecom/features/account_review/presentation/bloc/account_review_bloc.dart';
-import 'package:mediecom/features/explore/presentation/pages/home_screen.dart';
 import 'package:mediecom/features/explore/presentation/widgets/gradient_appBar.dart';
-import 'package:mediecom/features/user/presentation/pages/location_fetcher.dart';
 import 'package:mediecom/features/user/presentation/pages/update_profile.dart';
 import 'package:mediecom/injection_container.dart';
 
@@ -169,8 +167,8 @@ class _AccountReviewPageState extends State<AccountReviewPage> {
 
   void _navigateToNextPage(BuildContext context) {
     final cacheHelper = sl<CacheHelper>();
-    final hasLat = cacheHelper.getLatitude();
-    final hasLng = cacheHelper.getLongitude();
+    cacheHelper.getLatitude();
+    cacheHelper.getLongitude();
 
     // After account approval, always go to fill details page first
     context.go(UpdateProfileScreen.path);

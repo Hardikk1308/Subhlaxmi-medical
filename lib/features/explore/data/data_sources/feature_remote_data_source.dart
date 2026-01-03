@@ -45,8 +45,29 @@ class FeatureRemoteDataSourceImpl implements FeatureRemoteDataSource {
 
       if (response["success"] == true) {
         final List<dynamic> dataList = response["data"];
-
-        return dataList.map((json) => ProductModel.fromJson(json)).toList();
+        List<ProductEntity> products = dataList.map((json) => ProductModel.fromJson(json)).toList();
+        
+        // Fetch full details for each product to get expire dates
+        List<ProductEntity> productsWithDetails = [];
+        for (var product in products) {
+          try {
+            final detailResponse = await apihelpers.post(
+              endpoint: ApiConstants.productDetails,
+              body: {'M1_CODE': product.M1_CODE},
+            );
+            
+            if (detailResponse["success"] == true && detailResponse["data"] != null && detailResponse["data"].isNotEmpty) {
+              productsWithDetails.add(ProductModel.fromJson(detailResponse["data"][0]));
+            } else {
+              productsWithDetails.add(product);
+            }
+          } catch (e) {
+            // If detail fetch fails, use the search result
+            productsWithDetails.add(product);
+          }
+        }
+        
+        return productsWithDetails;
       } else {
         throw Exception(response["message"]);
       }

@@ -97,8 +97,14 @@ final GoRouter router = GoRouter(
 
     GoRoute(
       path: UpdateProfileScreen.path,
-      pageBuilder: (context, state) =>
-          buildTransitionPage(const UpdateProfileScreen(), slideInFromRight),
+      pageBuilder: (context, state) {
+        final extra = state.extra as Map<String, dynamic>?;
+        final isFromProfile = extra?['isFromProfile'] as bool? ?? false;
+        return buildTransitionPage(
+          UpdateProfileScreen(isFromProfile: isFromProfile),
+          slideInFromRight,
+        );
+      },
     ),
 
     GoRoute(

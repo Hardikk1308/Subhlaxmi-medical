@@ -76,8 +76,26 @@ class _OrdersState extends State<Orders> with WidgetsBindingObserver {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(message, style: const TextStyle(color: Colors.red)),
+                  Icon(
+                    Icons.shopping_bag_outlined,
+                    size: 64,
+                    color: Colors.grey[400],
+                  ),
                   const SizedBox(height: 16),
+                  Text(
+                    'No orders placed',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.grey[700],
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    'You haven\'t placed any orders yet',
+                    style: TextStyle(fontSize: 14, color: Colors.grey[500]),
+                  ),
+                  const SizedBox(height: 24),
                   ElevatedButton(
                     onPressed: _fetchOrders,
                     child: const Text('Retry'),
@@ -146,14 +164,9 @@ class _OrdersState extends State<Orders> with WidgetsBindingObserver {
           final order = entry.value;
 
           return _buildOrderId(order)
-              .animate(
-                delay: Duration(milliseconds: 130 * index),
-              )
+              .animate(delay: Duration(milliseconds: 130 * index))
               .fadeIn(duration: 300.ms)
-              .slideX(
-                begin: 0.3,
-                duration: 350.ms,
-              );
+              .slideX(begin: 0.3, duration: 350.ms);
         }).toList(),
       ),
     );

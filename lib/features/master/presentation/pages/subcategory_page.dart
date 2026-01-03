@@ -198,7 +198,7 @@ class _SubcategoryPageState extends State<SubcategoryPage> {
                                     context.push(
                                       ProductDetailPage.path,
                                       extra: ProductDetailsArgs(
-                                        tag: "featured_product_$index",
+                                        tag: "product_card_${data.M1_CODE}_$index",
                                         cate: data,
                                       ),
                                     );

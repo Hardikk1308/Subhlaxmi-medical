@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:mediecom/core/common/app/cache_helper.dart';
 import 'package:mediecom/core/common/widgets/safe_lottie_loader.dart';
 import 'package:mediecom/core/constants/media_constants.dart';
@@ -342,9 +341,9 @@ class _HomeScreenState extends State<HomeScreen> {
                           SizedBox(height: 12.h),
                           Text(
                             'No results found',
-                            style: AppTextStyles.w600(14).copyWith(
-                              color: Colors.grey[600],
-                            ),
+                            style: AppTextStyles.w600(
+                              14,
+                            ).copyWith(color: Colors.grey[600]),
                           ),
                         ],
                       ),
@@ -358,7 +357,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   physics: NeverScrollableScrollPhysics(),
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
-                    childAspectRatio: 0.65,
+                    childAspectRatio: 0.55,
                     mainAxisSpacing: 12,
                     crossAxisSpacing: 10,
                   ),
@@ -371,7 +370,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           ProductDetailPage.path,
                           extra: ProductDetailsArgs(
                             cate: product,
-                            tag: "search_product_${product.M1_CODE}",
+                            tag: "product_card_${product.M1_CODE}_$index",
                           ),
                         );
                       },
@@ -395,16 +394,16 @@ class _HomeScreenState extends State<HomeScreen> {
                         SizedBox(height: 12.h),
                         Text(
                           'Error loading results',
-                          style: AppTextStyles.w600(14).copyWith(
-                            color: Colors.red[600],
-                          ),
+                          style: AppTextStyles.w600(
+                            14,
+                          ).copyWith(color: Colors.red[600]),
                         ),
                         SizedBox(height: 8.h),
                         Text(
                           state.message,
-                          style: AppTextStyles.w400(12).copyWith(
-                            color: Colors.grey[600],
-                          ),
+                          style: AppTextStyles.w400(
+                            12,
+                          ).copyWith(color: Colors.grey[600]),
                           textAlign: TextAlign.center,
                         ),
                       ],

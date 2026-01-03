@@ -10,12 +10,13 @@ class ProductEntity extends Equatable {
   final String? M1_VAL;
   final String? M1_AMT1;
   final String? M1_AMT2;
+  final String? M1_DT1;
+  final String? M1_DT2;
   final String? M1_DT3;
   final String? M1_DT4;
   final String? M1_BT;
   final String? M1_ADD1;
   final String? M1_ADD2;
-  final String? M1_DT1;
   final String? M1_GROUP;
   final String? M1_PRINT;
   final String? category_name;
@@ -34,12 +35,13 @@ class ProductEntity extends Equatable {
     this.M1_VAL,
     this.M1_AMT1,
     this.M1_AMT2,
+    this.M1_DT1,
+    this.M1_DT2,
     this.M1_DT3,
     this.M1_DT4,
     this.M1_BT,
     this.M1_ADD1,
     this.M1_ADD2,
-    this.M1_DT1,
     this.M1_GROUP,
     this.M1_PRINT,
     this.category_name,
@@ -60,12 +62,13 @@ class ProductEntity extends Equatable {
     M1_VAL,
     M1_AMT1,
     M1_AMT2,
+    M1_DT1,
+    M1_DT2,
     M1_DT3,
     M1_DT4,
     M1_BT,
     M1_ADD1,
     M1_ADD2,
-    M1_DT1,
     M1_GROUP,
     M1_PRINT,
     category_name,

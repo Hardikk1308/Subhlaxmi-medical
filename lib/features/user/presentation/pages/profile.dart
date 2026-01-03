@@ -100,7 +100,10 @@ class _ProfilePageState extends State<ProfilePage> {
               context,
               title: 'Personal Details',
               icon: Icons.account_circle_outlined,
-              onTap: () => context.push(UpdateProfileScreen.path),
+              onTap: () => context.push(
+                UpdateProfileScreen.path,
+                extra: {'isFromProfile': true},
+              ),
             ),
             _buildProfileListItem(
               context,

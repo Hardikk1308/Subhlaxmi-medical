@@ -193,24 +193,47 @@ class Cart extends StatelessWidget {
                         color: _subtextColor,
                       ),
                     ),
-                    const SizedBox(height: 4),
-                    if (item.M1_DT4?.isNotEmpty ?? false)
-                      Text(
-                        'Expires: ${item.M1_DT4}',
-                        style: const TextStyle(
-                          fontSize: 12,
+                    const SizedBox(height: 8),
+                    Row(
+                      children: [
+                        const Icon(
+                          Icons.calendar_today,
+                          size: 14,
                           color: _subtextColor,
                         ),
-                      ),
+                        const SizedBox(width: 4),
+                        Expanded(
+                          child: Text(
+                            'Expires: ${item.M1_DT4?.isNotEmpty ?? false ? item.M1_DT4 : 'N/A'}',
+                            style: const TextStyle(
+                              fontSize: 12,
+                              color: _subtextColor,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                     const SizedBox(height: 4),
 
                     if (item.M1_LST?.isNotEmpty ?? false)
-                      Text(
-                        'Batch: ${item.M1_LST}',
-                        style: const TextStyle(
-                          fontSize: 12,
-                          color: _subtextColor,
-                        ),
+                      Row(
+                        children: [
+                          const Icon(
+                            Icons.local_shipping,
+                            size: 14,
+                            color: _subtextColor,
+                          ),
+                          const SizedBox(width: 4),
+                          Expanded(
+                            child: Text(
+                              'Batch: ${item.M1_LST}',
+                              style: const TextStyle(
+                                fontSize: 12,
+                                color: _subtextColor,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     const SizedBox(height: 10),
                     Row(

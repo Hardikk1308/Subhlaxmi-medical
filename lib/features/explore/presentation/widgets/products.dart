@@ -54,7 +54,7 @@ class ProductCard extends StatelessWidget {
                   Stack(
                     children: [
                       Hero(
-                        tag: "product_${data.M1_CODE}",
+                        tag: "product_card_${data.M1_CODE}_$index",
                         child: Container(
                           height: 140.h,
                           width: double.infinity,
@@ -131,53 +131,109 @@ class ProductCard extends StatelessWidget {
                   ),
 
                   // PRODUCT DETAILS
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.all(12.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Flexible(
-                            child: Text(
-                              data.M1_NAME ?? "Medicine Name",
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                              style: AppTextStyles.w700(14).copyWith(
-                                color: const Color(0xFF1A1A1A),
-                                height: 1.3,
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Flexible(
+                          child: Text(
+                            data.M1_NAME ?? "Medicine Name",
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: AppTextStyles.w700(14).copyWith(
+                              color: const Color(0xFF1A1A1A),
+                              height: 1,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+                        Row(
+                          children: [
+                            Icon(
+                              Iconsax.box,
+                              size: 14,
+                              color: Colors.grey.shade600,
+                            ),
+                            const SizedBox(width: 6),
+                            Flexible(
+                              child: Text(
+                                data.M1_CST ?? 'No formula available',
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.grey.shade600,
+                                ),
                               ),
                             ),
+                          ],
+                        ),
+                        const SizedBox(height: 2),
+                        if (data.M1_DT4?.isNotEmpty ?? false)
+                          Row(
+                            children: [
+                              Icon(
+                                Iconsax.ticket_expired,
+                                size: 14,
+                                color: Colors.grey.shade600,
+                              ),
+
+                              const SizedBox(width: 6),
+                              Flexible(
+                                child: Text(
+                                  data.M1_DT4 ?? 'Expirey date not available',
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.grey.shade600,
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
-                          const SizedBox(height: 4),
-                          Flexible(
-                            child: Text(
-                              data.M1_LNAME ?? "Manufacturer",
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: AppTextStyles.w500(
-                                12,
-                              ).copyWith(color: Colors.grey[700]),
+                        const SizedBox(height: 2),
+                        Row(
+                          children: [
+                            Icon(
+                              Iconsax.card_pos,
+                              size: 14,
+                              color: Colors.grey.shade600,
                             ),
-                          ),
-                          const SizedBox(height: 4),
-                          Flexible(
-                            child: Text(
-                              data.M1_CST ?? "Type",
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: AppTextStyles.w500(
-                                12,
-                              ).copyWith(color: Colors.grey[600]),
+
+                            const SizedBox(width: 6),
+                            Flexible(
+                              child: Text(
+                                data.M1_LNAME ?? 'No Batch available',
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.grey.shade600,
+                                ),
+                              ),
                             ),
-                          ),
-                          const Spacer(),
-                          SingleChildScrollView(
-                            scrollDirection: Axis.horizontal,
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Container(
+                          ],
+                        ),
+                        const SizedBox(height: 30),
+
+                        const Spacer(),
+                        SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 2.0,
+                                  horizontal: 3,
+                                ),
+                                child: Container(
                                   padding: const EdgeInsets.symmetric(
                                     horizontal: 2,
                                   ),
@@ -188,25 +244,24 @@ class ProductCard extends StatelessWidget {
                                   child: Text(
                                     "₹${data.M1_AMT2 ?? '0'}",
                                     style: AppTextStyles.w700(
-                                      16,
+                                      12,
                                     ).copyWith(color: const Color(0xFF10B981)),
                                   ),
                                 ),
-                                const SizedBox(width: 6),
-                                if (originalPrice > discountedPrice)
-                                  Text(
-                                    "₹${data.M1_AMT1}",
-                                    style: AppTextStyles.w500(12).copyWith(
-                                      color: Colors.grey[500],
-                                      decoration: TextDecoration.lineThrough,
-                                      decorationColor: Colors.grey[500],
-                                    ),
+                              ),
+                              if (originalPrice > discountedPrice)
+                                Text(
+                                  "₹${data.M1_AMT1}",
+                                  style: AppTextStyles.w500(10).copyWith(
+                                    color: Colors.grey[500],
+                                    decoration: TextDecoration.lineThrough,
+                                    decorationColor: Colors.grey[500],
                                   ),
-                              ],
-                            ),
+                                ),
+                            ],
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
                 ],
@@ -251,8 +306,8 @@ class ProductCard extends StatelessWidget {
           );
         },
         child: Container(
-          height: 35,
-          width: 35,
+          height: 30,
+          width: 30,
           padding: const EdgeInsets.all(5),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8),
@@ -263,7 +318,7 @@ class ProductCard extends StatelessWidget {
       );
     } else {
       return Container(
-        height: 35,
+        height: 30,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
           color: Colours.primaryColor,
@@ -281,15 +336,15 @@ class ProductCard extends StatelessWidget {
                 );
               },
               child: const SizedBox(
-                width: 32,
-                height: 35,
+                width: 25,
+                height: 30,
                 child: Center(
                   child: Icon(Iconsax.minus, color: Colours.white, size: 16),
                 ),
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 8),
               child: Text(
                 "$quantity",
                 style: AppTextStyles.w700(14).copyWith(color: Colours.white),
@@ -305,8 +360,8 @@ class ProductCard extends StatelessWidget {
                 );
               },
               child: const SizedBox(
-                width: 32,
-                height: 35,
+                width: 25,
+                height: 30,
                 child: Center(
                   child: Icon(Iconsax.add, color: Colours.white, size: 16),
                 ),

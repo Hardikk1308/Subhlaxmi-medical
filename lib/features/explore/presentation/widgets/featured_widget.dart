@@ -135,8 +135,7 @@ class _FeaturedWidgetState extends State<FeaturedWidget> {
                         context.push(
                           ProductDetailPage.path,
                           extra: ProductDetailsArgs(
-                            tag:
-                                "featured_${widget.feature.name}_${product.M1_CODE}",
+                            tag: "product_card_${product.M1_CODE}_$index",
                             cate: product,
                             categoryId: product.category_id,
                           ),
@@ -201,7 +200,7 @@ class _FeaturedWidgetState extends State<FeaturedWidget> {
               Stack(
                 children: [
                   Hero(
-                    tag: "featured_${widget.feature.name}_${data.M1_CODE}",
+                    tag: "product_card_${data.M1_CODE}_$index",
                     child: Container(
                       height: 120.h,
                       width: double.infinity,
